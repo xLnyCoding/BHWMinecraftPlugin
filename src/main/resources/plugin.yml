@@ -1,0 +1,9 @@
+name: BHWMcPlugin
+version: '1.0'
+main: de.kidinthedark.bhwmcplugin.BHWMcPlugin
+author: KidInTheDark
+prefix: BHWMcPlugin
+api-version: '1.20'
+commands:
+  rename:
+  lore:
