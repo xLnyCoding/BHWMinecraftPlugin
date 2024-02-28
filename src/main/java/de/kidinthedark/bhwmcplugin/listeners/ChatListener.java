@@ -8,14 +8,15 @@ import org.bukkit.Color;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatListener implements Listener {
 
     @SuppressWarnings("deprecated")
     @EventHandler
-    public void onChat(AsyncChatEvent e) {
+    public void onChat(AsyncPlayerChatEvent e) {
         Player p = e.getPlayer();
-        String message = e.message().toString();
+        String message = e.getMessage();
         message = message.replaceAll("%", "%%");
         message = ChatColor.translateAlternateColorCodes('&', message);
 

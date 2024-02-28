@@ -15,6 +15,11 @@ public class LoreCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
+        if(args.length == 0) {
+            sender.sendMessage("§cBitte gib eine Item-Lore an!");
+            return false;
+        }
+
         String name = args[0];
 
         for(int i = 1; i < args.length; i++) {
