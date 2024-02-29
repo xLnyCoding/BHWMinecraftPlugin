@@ -12,6 +12,10 @@ repositories {
         url = "https://repo.papermc.io/repository/maven-public/"
     }
     maven {
+        name = "playpro-repo"
+        url = "https://maven.playpro.com"
+    }
+    maven {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
@@ -19,6 +23,7 @@ repositories {
 
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
+    compileOnly "net.coreprotect:coreprotect:22.2"
 }
 
 def targetJavaVersion = 17
@@ -43,7 +48,7 @@ processResources {
     def props = [version: version]
     inputs.properties props
     filteringCharset 'UTF-8'
-    filesMatching('paper-plugin.yml') {
+    filesMatching('plugin.yml') {
         expand props
     }
 }

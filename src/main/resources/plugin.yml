@@ -1,9 +1,14 @@
 name: BHWMcPlugin
-version: '1.0'
-main: de.kidinthedark.bhwmcplugin.BHWMcPlugin
 author: KidInTheDark
-prefix: BHWMcPlugin
+version: '1.0'
 api-version: '1.20'
+
+softdepend:
+  - CoreProtect
+
+main: de.kidinthedark.bhwmcplugin.BHWMcPlugin
+prefix: BHWMcPlugin
+
 commands:
   rename:
   lore:
