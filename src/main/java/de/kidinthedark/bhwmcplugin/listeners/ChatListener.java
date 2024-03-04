@@ -40,9 +40,10 @@ public class ChatListener implements Listener {
 
             if(message.isEmpty() || message.equals(" ")) {
                 p.sendMessage("§cBitte lege eine Nachricht fest!");
+                return;
             }
-
-            message = message.replaceFirst(" ", "");
+            if(message.startsWith(" "))
+                message = message.replaceFirst(" ", "");
             p.sendMessage("§6Flüsternachricht an §a" + target.getName() + " §8» §7" + message);
             target.sendMessage("§6Flüsternachricht von §a" + p.getName() + " §8» §7" + message);
         } else {
