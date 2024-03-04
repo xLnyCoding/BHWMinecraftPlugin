@@ -1,6 +1,11 @@
 package de.kidinthedark.bhwmcplugin.listeners;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.Adventure;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.apache.logging.log4j.message.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,20 +18,19 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatListener implements Listener {
 
-    @SuppressWarnings("deprecated")
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent e) {
+    public void onChat(AsyncChatEvent e) {
         Player p = e.getPlayer();
-        String message = e.getMessage();
+        String message = ((TextComponent) e.message()).content();
         message = ChatColor.translateAlternateColorCodes('&', message);
 
         e.setCancelled(true);
 
         if(message.startsWith("@")) {
             String playername = message.split(" ")[0].replaceFirst("@", "");
-            OfflinePlayer t = Bukkit.getOfflinePlayer(playername);
+            OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(playername);
 
-            if(!t.isOnline()) {
+            if(!offlineTarget.isOnline()) {
                 p.sendMessage("§cDer Spieler " + playername + " konnte nicht gefunden werden!");
                 return;
             }
@@ -42,7 +46,7 @@ public class ChatListener implements Listener {
             p.sendMessage("§6Flüsternachricht an §a" + target.getName() + " §8» §7" + message);
             target.sendMessage("§6Flüsternachricht von §a" + p.getName() + " §8» §7" + message);
         } else {
-            Bukkit.broadcastMessage("§6" + p.getName() + " §8» §7" + message);
+            Bukkit.broadcast(Component.text("§6" + p.getName() + " §8» §7" + message));
         }
     }
 
