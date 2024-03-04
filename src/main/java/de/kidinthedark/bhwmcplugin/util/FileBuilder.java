@@ -29,6 +29,10 @@ public class FileBuilder {
         }
     }
 
+    public boolean delete() {
+        return f.delete();
+    }
+
     public void addDefault(String path, Object value) {
         c.addDefault(path, value);
     }
