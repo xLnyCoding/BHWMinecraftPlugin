@@ -1,5 +1,6 @@
 package de.kidinthedark.bhwmcplugin.commands;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
