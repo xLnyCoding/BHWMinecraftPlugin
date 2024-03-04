@@ -10,5 +10,4 @@ main: de.kidinthedark.bhwmcplugin.BHWMcPlugin
 prefix: BHWMcPlugin
 
 commands:
-  rename:
   lore:
