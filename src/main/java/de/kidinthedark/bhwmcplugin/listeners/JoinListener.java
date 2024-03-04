@@ -1,5 +1,6 @@
 package de.kidinthedark.bhwmcplugin.listeners;
 
+import de.kidinthedark.bhwmcplugin.BHWMcPlugin;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +14,8 @@ public class JoinListener implements Listener {
         e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 
         e.setJoinMessage("§8[§a+§8]§7 " + e.getPlayer().getName());
+
+        e.getPlayer().discoverRecipe(BHWMcPlugin.inst.recipe.getKey());
 
         e.getPlayer().setPlayerListHeaderFooter("\n     §b§lBenHw Inoffiziell     \n", "\n§aPrivater Server\n");
     }
