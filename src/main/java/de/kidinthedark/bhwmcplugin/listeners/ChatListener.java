@@ -5,6 +5,7 @@ import org.apache.logging.log4j.message.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,19 +18,19 @@ public class ChatListener implements Listener {
     public void onChat(AsyncPlayerChatEvent e) {
         Player p = e.getPlayer();
         String message = e.getMessage();
-        message = message.replaceAll("%", "%%");
         message = ChatColor.translateAlternateColorCodes('&', message);
 
         e.setCancelled(true);
 
         if(message.startsWith("@")) {
             String playername = message.split(" ")[0].replaceFirst("@", "");
-            Player target = Bukkit.getPlayer(playername);
+            OfflinePlayer t = Bukkit.getOfflinePlayer(playername);
 
-            if(!target.isOnline()) {
+            if(!t.isOnline()) {
                 p.sendMessage("§cDer Spieler " + playername + " konnte nicht gefunden werden!");
                 return;
             }
+            Player target = Bukkit.getPlayer(playername);
 
             message = message.replaceAll("@" + playername, "");
 
