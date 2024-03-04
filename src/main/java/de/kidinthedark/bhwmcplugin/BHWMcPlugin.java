@@ -1,13 +1,12 @@
 package de.kidinthedark.bhwmcplugin;
 
-import de.kidinthedark.bhwmcplugin.commands.LoreCommand;
-import de.kidinthedark.bhwmcplugin.commands.RenameCommand;
-import de.kidinthedark.bhwmcplugin.commands.SignRenameCommand;
+import de.kidinthedark.bhwmcplugin.commands.*;
 import de.kidinthedark.bhwmcplugin.listeners.ChatListener;
 import de.kidinthedark.bhwmcplugin.listeners.JoinListener;
 import de.kidinthedark.bhwmcplugin.listeners.QuitListener;
 import de.kidinthedark.bhwmcplugin.recipes.LightRecipe;
 import de.kidinthedark.bhwmcplugin.timers.RestartTimer;
+import de.kidinthedark.bhwmcplugin.util.PluginDatabase;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
@@ -15,16 +14,21 @@ import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.nio.file.Path;
+
 public final class BHWMcPlugin extends JavaPlugin {
 
     public static BHWMcPlugin inst;
     public CoreProtectAPI coreProtect;
     public LightRecipe recipe;
+    public PluginDatabase data;
 
     @Override
     public void onEnable() {
 
         inst = this;
+
+        data = new PluginDatabase();
 
         recipe = new LightRecipe();
 
@@ -34,6 +38,8 @@ public final class BHWMcPlugin extends JavaPlugin {
 
         //getCommand("rename").setExecutor(new RenameCommand());
         getCommand("lore").setExecutor(new LoreCommand());
+        getCommand("wartung").setExecutor(new WartungCommand());
+        getCommand("bc").setExecutor(new BroadcastCommand());
         //getCommand("signrename").setExecutor(new SignRenameCommand());
 
         Bukkit.getScheduler().runTaskTimer(this, new RestartTimer(), 20, 20);
