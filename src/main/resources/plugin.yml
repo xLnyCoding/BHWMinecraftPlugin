@@ -11,3 +11,5 @@ prefix: BHWMcPlugin
 
 commands:
   lore:
+  wartung:
+  bc:
