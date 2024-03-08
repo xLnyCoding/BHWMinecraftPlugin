@@ -1,6 +1,6 @@
 name: BHWMcPlugin
 author: KidInTheDark
-version: '1.0'
+version: '${version}'
 api-version: '1.20'
 
 softdepend:
@@ -13,3 +13,4 @@ commands:
   lore:
   wartung:
   bc:
+  lookup:
