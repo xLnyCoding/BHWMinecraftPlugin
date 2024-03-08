@@ -15,6 +15,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
+import java.util.Objects;
 
 public final class BHWMcPlugin extends JavaPlugin {
 
@@ -36,11 +37,11 @@ public final class BHWMcPlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
         Bukkit.getPluginManager().registerEvents(new QuitListener(), this);
 
-        //getCommand("rename").setExecutor(new RenameCommand());
-        getCommand("lore").setExecutor(new LoreCommand());
-        getCommand("wartung").setExecutor(new WartungCommand());
-        getCommand("bc").setExecutor(new BroadcastCommand());
-        getCommand("lookup").setExecutor(new LookupCommand());
+        Objects.requireNonNull(getCommand("rename")).setExecutor(new RenameCommand());
+        Objects.requireNonNull(getCommand("lore")).setExecutor(new LoreCommand());
+        Objects.requireNonNull(getCommand("wartung")).setExecutor(new WartungCommand());
+        Objects.requireNonNull(getCommand("bc")).setExecutor(new BroadcastCommand());
+        Objects.requireNonNull(getCommand("lookup")).setExecutor(new LookupCommand());
         //getCommand("signrename").setExecutor(new SignRenameCommand());
 
         Bukkit.getScheduler().runTaskTimer(this, new RestartTimer(), 20, 20);
