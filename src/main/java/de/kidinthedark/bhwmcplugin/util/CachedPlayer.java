@@ -1,12 +1,17 @@
 package de.kidinthedark.bhwmcplugin.util;
 
+import org.bukkit.Bukkit;
+
 public class CachedPlayer {
 
-    private String uuid;
-    private String name;
-    private String address;
+    private final String uuid;
+    private final String name;
+    private final String address;
     private long lastSeen;
-    private boolean online;
+
+    public void setLastSeen(long lastSeen) {
+        this.lastSeen = lastSeen;
+    }
 
     public String getUuid() {
         return uuid;
@@ -25,11 +30,14 @@ public class CachedPlayer {
     }
 
     public boolean isOnline() {
-        return online;
+        return Bukkit.getOfflinePlayer(name).isOnline();
     }
 
-    public CachedPlayer(String uuid, String name, long lastSeen, boolean online, String ip) {
-
+    public CachedPlayer(String uuid, String name, long lastSeen, String ip) {
+        this.uuid = uuid.replaceAll("\"", "");
+        this.name = name;
+        this.address = ip;
+        this.lastSeen = lastSeen;
     }
 
 }
