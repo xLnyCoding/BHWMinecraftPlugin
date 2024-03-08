@@ -1,5 +1,7 @@
 name: BHWMcPlugin
-author: KidInTheDark
+authors:
+  - KidInTheDark
+  - Habukatu
 version: '${version}'
 api-version: '1.20'
 
@@ -14,3 +16,4 @@ commands:
   wartung:
   bc:
   lookup:
+  rename:
