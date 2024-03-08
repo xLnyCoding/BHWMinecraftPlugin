@@ -2,6 +2,8 @@ package de.kidinthedark.bhwmcplugin.util;
 
 import de.kidinthedark.bhwmcplugin.BHWMcPlugin;
 import org.bukkit.Bukkit;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class PluginDatabase {
@@ -31,21 +33,21 @@ public class PluginDatabase {
 
     public CachedPlayer getCachedPlayer(String uuid) {
         if(isPlayerCached(uuid)) {
-            FileBuilder playerInfo = new FileBuilder(BHWMcPlugin.inst.getDataFolder().getPath() + "playercache", uuid + ".yml");
+            FileBuilder playerInfo = new FileBuilder(BHWMcPlugin.inst.getDataFolder().getPath() + "/playercache", uuid + ".yml");
 
-            return new CachedPlayer(uuid, playerInfo.getString("name"), playerInfo.getLong("lastSeen"), Bukkit.getOfflinePlayer(uuid).isOnline(), playerInfo.getString("address"));
+            return new CachedPlayer(uuid, playerInfo.getString("name"), playerInfo.getLong("lastSeen"), playerInfo.getString("address"));
         }
         return null;
     }
 
     public void setCachedPlayer(CachedPlayer player) {
-        List<String> players = banlist.getSringList("players");
+        List<String> players = cachedPlayers.getSringList("players");
         if(!players.contains(player.getUuid())) {
             players.add(player.getUuid());
             cachedPlayers.setValue("players", players);
             cachedPlayers.save();
         }
-        FileBuilder playerInfo = new FileBuilder(BHWMcPlugin.inst.getDataFolder().getPath() + "playercache", player.getUuid() + ".yml");
+        FileBuilder playerInfo = new FileBuilder(BHWMcPlugin.inst.getDataFolder().getPath() + "/playercache", player.getUuid() + ".yml");
 
         if(!playerInfo.exist()) playerInfo.mkfile();
 
@@ -58,7 +60,7 @@ public class PluginDatabase {
 
     public boolean isPlayerBanned(String uuid) {
         if(banlist.getSringList("bans").contains(uuid)) {
-            FileBuilder banInfo = new FileBuilder(BHWMcPlugin.inst.getDataFolder().getPath() + "bans", uuid + ".yml");
+            FileBuilder banInfo = new FileBuilder(BHWMcPlugin.inst.getDataFolder().getPath() + "\\bans", uuid + ".yml");
 
             if(banInfo.getLong("duration") == -1) return true;
 
