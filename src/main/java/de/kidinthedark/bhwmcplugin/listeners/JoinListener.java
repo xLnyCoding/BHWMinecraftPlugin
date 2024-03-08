@@ -34,10 +34,14 @@ public class JoinListener implements Listener {
     @EventHandler
     public void onLogin(PlayerLoginEvent e) throws IOException {
         APIMessage uid = APIConnector.getPlayerId(e.getPlayer().getName());
+        String uuid = uid.getValue("id");
 
         if(uid.getStatuscode() != 200) {
             e.disallow(PlayerLoginEvent.Result.KICK_OTHER, Component.text("§cDie Mojang Server sind nicht erreichbar, deshalb kann dein Username nicht verifiziert werden\n§7Fehlercode: " + uid.getStatuscode()));
         }
+
+        CachedPlayer cachedPlayer = new CachedPlayer(uuid, e.getPlayer().getName(), System.currentTimeMillis(), e.getAddress().toString());
+        BHWMcPlugin.inst.data.setCachedPlayer(cachedPlayer);
 
         if(BHWMcPlugin.inst.data.isMaintenance() && !e.getPlayer().isOp()) {
             e.disallow(PlayerLoginEvent.Result.KICK_OTHER, Component.text("§cDer Server befindet sich in Wartungsarbeiten!"));
