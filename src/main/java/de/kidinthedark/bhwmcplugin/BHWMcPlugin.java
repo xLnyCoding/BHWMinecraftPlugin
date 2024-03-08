@@ -40,6 +40,7 @@ public final class BHWMcPlugin extends JavaPlugin {
         getCommand("lore").setExecutor(new LoreCommand());
         getCommand("wartung").setExecutor(new WartungCommand());
         getCommand("bc").setExecutor(new BroadcastCommand());
+        getCommand("lookup").setExecutor(new LookupCommand());
         //getCommand("signrename").setExecutor(new SignRenameCommand());
 
         Bukkit.getScheduler().runTaskTimer(this, new RestartTimer(), 20, 20);
@@ -63,7 +64,7 @@ public final class BHWMcPlugin extends JavaPlugin {
 
         CoreProtectAPI cp = ((CoreProtect) plugin).getAPI();
 
-        Bukkit.getConsoleSender().sendMessage("Lade CoreProtect Version " + cp.APIVersion());
+        Bukkit.getLogger().info("Lade CoreProtect Version " + cp.APIVersion());
 
         return cp;
     }
