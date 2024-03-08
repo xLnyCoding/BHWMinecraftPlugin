@@ -1,6 +1,7 @@
 package de.kidinthedark.bhwmcplugin.util.mcapi;
 
 import com.google.gson.JsonObject;
+import de.kidinthedark.bhwmcplugin.BHWMcPlugin;
 
 public class APIMessage {
 

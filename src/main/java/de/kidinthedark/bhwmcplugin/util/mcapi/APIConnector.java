@@ -29,7 +29,7 @@ public class APIConnector {
 
         while(connection.getInputStream().available() == 0) {
             if(System.currentTimeMillis() - start > 5000) {
-                BHWMcPlugin.inst.getLogger().warning("[Mojang API] Keine Antwort von der Mojang API, breche ab");
+                BHWMcPlugin.inst.getLogger().warning("[Mojang API] Keine Antwort von der Mojang API, breche ab"  + " Status: " + connection.getResponseCode());
                 return new APIMessage(408, null);
             }
         }
@@ -47,9 +47,13 @@ public class APIConnector {
             result = result + scanner.nextLine();
         }
 
-        BHWMcPlugin.inst.getLogger().info("[Mojang API] Antwort von Mojang API (" + (System.currentTimeMillis() - start) + "ms):" + result);
+        BHWMcPlugin.inst.getLogger().info("[Mojang API] Antwort von Mojang API (" + (System.currentTimeMillis() - start) + "ms):" + result + " Status: " + connection.getResponseCode());
 
         JsonObject json = new Gson().fromJson(result, JsonObject.class);
+
+        if(json.has("errorMessage")) {
+            return new APIMessage(404, null);
+        }
 
         return new APIMessage(200, json);
     }
@@ -72,7 +76,7 @@ public class APIConnector {
 
         while (connection.getInputStream().available() == 0) {
             if (System.currentTimeMillis() - start > 5000) {
-                BHWMcPlugin.inst.getLogger().warning("[Mojang API] Keine Antwort von der Mojang API, breche ab");
+                BHWMcPlugin.inst.getLogger().warning("[Mojang API] Keine Antwort von der Mojang API, breche ab"  + " Status: " + connection.getResponseCode());
                 return new APIMessage(408, null);
             }
         }
@@ -90,7 +94,7 @@ public class APIConnector {
             result = result + scanner.nextLine();
         }
 
-        BHWMcPlugin.inst.getLogger().info("[Mojang API] Antwort von Mojang API (" + (System.currentTimeMillis() - start) + "ms):" + result);
+        BHWMcPlugin.inst.getLogger().info("[Mojang API] Antwort von Mojang API (" + (System.currentTimeMillis() - start) + "ms):" + result + " Status: " + connection.getResponseCode());
 
         JsonObject json = new Gson().fromJson(result, JsonObject.class);
 
