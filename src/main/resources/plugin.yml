@@ -17,3 +17,5 @@ commands:
   bc:
   lookup:
   rename:
+  ban:
+  tempban:
