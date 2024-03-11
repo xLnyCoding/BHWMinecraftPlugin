@@ -1,15 +1,20 @@
 package de.kidinthedark.bhwmcplugin.util;
 
 import de.kidinthedark.bhwmcplugin.BHWMcPlugin;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerKickEvent;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PluginDatabase {
 
     private final FileBuilder config;
-    private final FileBuilder banlist;
+    private FileBuilder banlist;
     private final FileBuilder cachedPlayers;
 
     public PluginDatabase() {
@@ -58,28 +63,50 @@ public class PluginDatabase {
         playerInfo.save();
     }
 
-    public boolean isPlayerBanned(String uuid) {
-        if(banlist.getSringList("bans").contains(uuid)) {
+    public FileBuilder isPlayerBanned(String uuid) {
+        banlist = new FileBuilder(BHWMcPlugin.inst.getDataFolder().getPath(), "banlist.yml");
+        if(banlist.getSringList("banlist").contains(uuid)) {
             FileBuilder banInfo = new FileBuilder(BHWMcPlugin.inst.getDataFolder().getPath() + "\\bans", uuid + ".yml");
 
-            if(banInfo.getLong("duration") == -1) return true;
+            if(banInfo.getLong("duration") == -1) return banInfo;
 
             if(banInfo.getLong("expires") < System.currentTimeMillis()) {
                 banInfo.delete();
-                List<String> bans = banlist.getSringList("bans");
+                List<String> bans = banlist.getSringList("banlist");
                 bans.remove(uuid);
                 banlist.setValue("banlist", bans);
-                banInfo.save();
-                return false;
+                banlist.save();
+                return null;
             }
 
-            return true;
+            return banInfo;
         } else {
-            return false;
+            return null;
         }
     }
 
     public void setPlayerBanned(CachedPlayer player, String reason, long duration) {
+        String uuid = player.getUuid();
+        FileBuilder banInfo = new FileBuilder(BHWMcPlugin.inst.getDataFolder().getPath() + "\\bans", uuid + ".yml");
+
+        banInfo.setValue("duration", duration);
+        banInfo.setValue("reason", reason);
+        banInfo.setValue("expires", System.currentTimeMillis() + duration);
+        banInfo.save();
+
+        List<String> bans = banlist.getSringList("banlist");
+        bans.add(uuid);
+        banlist.setValue("banlist", bans);
+        banlist.save();
+
+        OfflinePlayer p = Bukkit.getOfflinePlayer(player.getName());
+        if(p.isOnline()) {
+            if(duration == -1) {
+                ((Player) p).kick(Component.text("§cDu wurdest gebannt!\n\n§eGrund: §7" + reason + "\n§eEntbannungsdatum: §cPERMANENT" ), PlayerKickEvent.Cause.BANNED);
+            } else {
+                ((Player) p).kick(Component.text("§cDu wurdest gebannt!\n\n§eGrund: §7" + reason + "\n§eEntbannungsdatum: §7" + new SimpleDateFormat("dd.MM.YYYY HH:mm:ss").format(banInfo.getLong("expires"))), PlayerKickEvent.Cause.BANNED);
+            }
+        }
 
     }
 
