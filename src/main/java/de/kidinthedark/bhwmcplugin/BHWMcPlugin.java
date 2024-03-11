@@ -42,6 +42,8 @@ public final class BHWMcPlugin extends JavaPlugin {
         Objects.requireNonNull(getCommand("wartung")).setExecutor(new WartungCommand());
         Objects.requireNonNull(getCommand("bc")).setExecutor(new BroadcastCommand());
         Objects.requireNonNull(getCommand("lookup")).setExecutor(new LookupCommand());
+        Objects.requireNonNull(getCommand("ban")).setExecutor(new BanCommand());
+        Objects.requireNonNull(getCommand("tempban")).setExecutor(new TempbanCommand());
         //getCommand("signrename").setExecutor(new SignRenameCommand());
 
         Bukkit.getScheduler().runTaskTimer(this, new RestartTimer(), 20, 20);
