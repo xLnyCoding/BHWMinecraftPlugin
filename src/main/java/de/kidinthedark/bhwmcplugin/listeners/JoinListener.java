@@ -2,6 +2,7 @@ package de.kidinthedark.bhwmcplugin.listeners;
 
 import de.kidinthedark.bhwmcplugin.BHWMcPlugin;
 import de.kidinthedark.bhwmcplugin.util.CachedPlayer;
+import de.kidinthedark.bhwmcplugin.util.FileBuilder;
 import de.kidinthedark.bhwmcplugin.util.PluginDatabase;
 import de.kidinthedark.bhwmcplugin.util.mcapi.APIConnector;
 import de.kidinthedark.bhwmcplugin.util.mcapi.APIMessage;
@@ -15,6 +16,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 public class JoinListener implements Listener {
 
@@ -42,6 +44,15 @@ public class JoinListener implements Listener {
 
         CachedPlayer cachedPlayer = new CachedPlayer(uuid, e.getPlayer().getName(), System.currentTimeMillis(), e.getAddress().toString());
         BHWMcPlugin.inst.data.setCachedPlayer(cachedPlayer);
+
+        FileBuilder banInfo = BHWMcPlugin.inst.data.isPlayerBanned(cachedPlayer.getUuid());
+        if(banInfo != null) {
+            if(banInfo.getLong("duration") == -1) {
+                e.disallow(PlayerLoginEvent.Result.KICK_BANNED, Component.text("§cDu wurdest gebannt!\n\n§eGrund: §7" + banInfo.getString("reason") + "\n§eEntbannungsdatum: §cPERMANENT" ));
+            } else {
+                e.disallow(PlayerLoginEvent.Result.KICK_BANNED, Component.text("§cDu wurdest gebannt!\n\n§eGrund: §7" + banInfo.getString("reason") + "\n§eEntbannungsdatum: §7" + new SimpleDateFormat("dd.MM.YYYY HH:mm:ss").format(banInfo.getLong("expires"))));
+            }
+        }
 
         if(BHWMcPlugin.inst.data.isMaintenance() && !e.getPlayer().isOp()) {
             e.disallow(PlayerLoginEvent.Result.KICK_OTHER, Component.text("§cDer Server befindet sich in Wartungsarbeiten!"));
