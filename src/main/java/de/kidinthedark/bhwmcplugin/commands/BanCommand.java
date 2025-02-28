@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -63,6 +64,10 @@ public class BanCommand implements CommandExecutor {
             CachedPlayer target = BHWMcPlugin.inst.data.getCachedPlayer(uuid);
 
             BHWMcPlugin.inst.data.setPlayerBanned(target, reason.toString(), -1);
+
+            for(Player player : Bukkit.getOnlinePlayers()) {
+                if (player.isOp()) player.sendMessage(Component.text("§c§lSystem §8»§a " + sender.getName() + "§7 hat §c" + target.getName() + "§7für §c" + reason + " §7gebannt! Entbannungsdatum: §cPERMANENT"));
+            }
 
         } else {
             sender.sendMessage("§cDazu hast du keine Rechte!");

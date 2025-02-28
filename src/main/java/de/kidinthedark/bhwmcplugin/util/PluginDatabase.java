@@ -66,7 +66,7 @@ public class PluginDatabase {
     public FileBuilder isPlayerBanned(String uuid) {
         banlist = new FileBuilder(BHWMcPlugin.inst.getDataFolder().getPath(), "banlist.yml");
         if(banlist.getSringList("banlist").contains(uuid)) {
-            FileBuilder banInfo = new FileBuilder(BHWMcPlugin.inst.getDataFolder().getPath() + "\\bans", uuid + ".yml");
+            FileBuilder banInfo = new FileBuilder(BHWMcPlugin.inst.getDataFolder().getPath() + "/bans", uuid + ".yml");
 
             if(banInfo.getLong("duration") == -1) return banInfo;
 

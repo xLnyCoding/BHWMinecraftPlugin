@@ -4,12 +4,16 @@ import de.kidinthedark.bhwmcplugin.BHWMcPlugin;
 import de.kidinthedark.bhwmcplugin.util.CachedPlayer;
 import de.kidinthedark.bhwmcplugin.util.mcapi.APIConnector;
 import de.kidinthedark.bhwmcplugin.util.mcapi.APIMessage;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 public class TempbanCommand implements CommandExecutor {
     @Override
@@ -85,6 +89,11 @@ public class TempbanCommand implements CommandExecutor {
 
             BHWMcPlugin.inst.data.setPlayerBanned(target, reason.toString(), time);
 
+            String timeString = new SimpleDateFormat("dd.MM.YYYY HH:mm:ss").format(System.currentTimeMillis() + time);
+
+            for(Player player : Bukkit.getOnlinePlayers()) {
+                if (player.isOp()) player.sendMessage(Component.text("§c§lSystem §8»§a " + sender.getName() + "§7 hat §c" + target.getName() + "§7für §c" + reason + " §7gebannt! Entbannungsdatum: §c" + timeString));
+            }
         } else {
             sender.sendMessage("§cDazu hast du keine Rechte!");
         }
